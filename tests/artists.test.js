@@ -160,5 +160,37 @@ describe('/artists', () => {
           });
       });
     });
+
+    describe('PATCH /artists/:artistId/albums', () => {
+      it('updates artist with a list of albums', (done) => {
+        const artist = artists[0];
+        chai.request(server)
+          .patch(`/artists/${artist._id}/albums`)
+          .send({
+            name: 'Ghost Stories',
+            year: 2014,
+          })
+          .end((err, res) => {
+            expect(err).to.equal(null);
+            expect(res.status).to.equal(204);
+            Artist.findById(artist._id, (err, updatedArtist) => {
+              expect(updatedArtist.albums[0].name.toString()).to.equal('Ghost Stories');
+              expect(updatedArtist.albums[0].year.toString()).to.equal('2014');
+              done();
+            });
+          });
+      });
+
+      it('returns a 404 if the artist does not exist', (done) => {
+        chai.request(server)
+          .delete('/artists/12345')
+          .end((err, res) => {
+            expect(err).to.equal(null);
+            expect(res.status).to.equal(404);
+            expect(res.body.error).to.equal('The artist could not be found.');
+            done();
+          });
+      });
+    });
   });
 });

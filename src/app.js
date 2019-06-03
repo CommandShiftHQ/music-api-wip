@@ -14,6 +14,8 @@ app.get('/artists/:id', artists.find);
 
 app.patch('/artists/:id', artists.update);
 
+app.patch('/artists/:id/albums', artists.addAlbums);
+
 app.delete('/artists/:id', artists.remove);
 
 app.get('*', (req, res) => {
