@@ -5,6 +5,7 @@ const app = express();
 app.use(json);
 
 const artists = require('./controllers/artists');
+const albums = require('./controllers/albums');
 
 app.post('/artists', artists.create);
 
@@ -14,7 +15,7 @@ app.get('/artists/:id', artists.find);
 
 app.patch('/artists/:id', artists.update);
 
-app.patch('/artists/:id/albums', artists.addAlbums);
+app.post('/artists/:artistId/albums', albums.create);
 
 app.delete('/artists/:id', artists.remove);
 
