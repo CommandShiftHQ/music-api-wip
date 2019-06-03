@@ -32,24 +32,10 @@ exports.update = (req, res) => Artist.findById({ _id: req.params.id }, (err, art
     if (err) {
       res.json('Could not update');
     }
-
     res.status(200).json(artistUpdated);
   });
 });
 
-exports.addAlbums = (req, res) => Artist.findById({ _id: req.params.id }, (err, artist) => {
-  if (err) {
-    return res.status(404).json({ error: 'The artist could not be found.' });
-  }
-
-  artist.set({ albums: artist.albums.concat([req.body]) }).save((err, artistUpdated) => {
-    if (err) {
-      res.json('Could not update');
-    }
-
-    res.status(204).json(artistUpdated);
-  });
-});
 
 exports.remove = (req, res) => Artist.findByIdAndDelete({ _id: req.params.id }, (err, artist) => {
   if (err) {
